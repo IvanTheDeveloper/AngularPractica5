@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="header-toolbar">
+    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="update()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>La Orlabeda</span>
+    <span class="example-spacer"></span>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item *ngIf="!userLoggedIn" disabled="{{isCurrentRoute('/register')}}" [routerLink]="'/register'">
+        <mat-icon>person</mat-icon>
+        <span>Registrarse</span>
+    </button>
+    <button mat-menu-item *ngIf="!userLoggedIn" disabled="{{isCurrentRoute('/login')}}" [routerLink]="'/login'">
+        <mat-icon>login</mat-icon>
+        <span>Iniciar Sesión</span>
+    </button>
+    <button mat-menu-item *ngIf="isCurrentRoute('/main')" disabled="{{!userLoggedIn}}" (click)="navLogout()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar Sesión</span>
+    </button>
+</mat-menu>
