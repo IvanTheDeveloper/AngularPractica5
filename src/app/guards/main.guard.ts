@@ -11,7 +11,7 @@ export const mainGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
     router.navigate(['/login']);
-    return true;
+    return false;
   }
 
 }
