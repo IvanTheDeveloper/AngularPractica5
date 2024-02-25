@@ -7,15 +7,15 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item *ngIf="!userLoggedIn" disabled="{{isCurrentRoute('/register')}}" [routerLink]="'/register'">
+    <button mat-menu-item disabled="{{userLoggedIn}}" [routerLink]="'/register'">
         <mat-icon>person</mat-icon>
         <span>Registrarse</span>
     </button>
-    <button mat-menu-item *ngIf="!userLoggedIn" disabled="{{isCurrentRoute('/login')}}" [routerLink]="'/login'">
+    <button mat-menu-item disabled="{{userLoggedIn}}" [routerLink]="'/login'">
         <mat-icon>login</mat-icon>
         <span>Iniciar Sesión</span>
     </button>
-    <button mat-menu-item *ngIf="isCurrentRoute('/main')" disabled="{{!userLoggedIn}}" (click)="navLogout()">
+    <button mat-menu-item disabled="{{!userLoggedIn}}" (click)="navLogout()">
         <mat-icon>logout</mat-icon>
         <span>Cerrar Sesión</span>
     </button>

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly COOKIE_KEY = 'my_auth_token';
 
-  constructor(private auth: Auth) { }
+  constructor(private auth: Auth, private cookieService: CookieService) { }
 
   register(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password)
@@ -21,6 +23,7 @@ export class AuthService {
   }
 
   logout(): Promise<void> {
+    this.cookieService.delete(this.COOKIE_KEY);
     return signOut(this.auth)
   }
 
@@ -28,9 +31,15 @@ export class AuthService {
     return this.auth.currentUser !== null
   }
 
-  getToken(): Promise<string | null> {
+  getToken(): void{
     const currentUser = this.auth.currentUser
-    return currentUser ? currentUser.getIdToken() : Promise.resolve(null)
+    if (currentUser){
+      currentUser.getIdToken().then(
+        (token) => {this.cookieService.set(this.COOKIE_KEY, token)}
+      ).catch(
+        () => console.log('No se pudo recuperar el token')
+      )
+    } 
   }
 
 }

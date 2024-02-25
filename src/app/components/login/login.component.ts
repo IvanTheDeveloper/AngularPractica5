@@ -18,9 +18,7 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
     });
   }
-
-  ngOnInit() { }
-
+  
   onSubmit() {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;

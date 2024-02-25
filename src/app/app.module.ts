@@ -29,6 +29,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MainComponent } from './components/main/main.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { MainComponent } from './components/main/main.component';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
