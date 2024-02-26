@@ -28,18 +28,22 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.auth.currentUser !== null
+    return this.cookieService.check(this.COOKIE_KEY)
   }
 
-  getToken(): void{
+  updateCookieToken() {
     const currentUser = this.auth.currentUser
-    if (currentUser){
+    if (currentUser) {
       currentUser.getIdToken().then(
-        (token) => {this.cookieService.set(this.COOKIE_KEY, token)}
+        (token) => { this.cookieService.set(this.COOKIE_KEY, token) }
       ).catch(
         () => console.log('No se pudo recuperar el token')
       )
-    } 
+    }
+  }
+
+  getEmail() {
+    return this.auth.currentUser?.email
   }
 
 }

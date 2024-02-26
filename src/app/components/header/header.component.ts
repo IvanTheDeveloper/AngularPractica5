@@ -25,9 +25,5 @@ export class HeaderComponent {
     this.router.navigateByUrl('/login')
     this.update()
   }
-
-  isCurrentRoute(route: string): boolean {
-    return this.router.url === route
-  }
-
+  
 }
