@@ -40,7 +40,7 @@ export class LoginComponent {
         () => {
           this.auth.updateCookieToken()
           this.router.navigateByUrl('/main')
-          this.openSnackBar("Bienvenido " + this.auth.getEmail())
+          this.openSnackBar("Bienvenido " + this.auth.getUsername())
         }
       ).catch(
         error => {

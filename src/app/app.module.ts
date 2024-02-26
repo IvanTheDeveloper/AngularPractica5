@@ -28,7 +28,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MainComponent } from './components/main/main.component';
 import { AuthService } from './services/auth.service';
 
 @NgModule({
@@ -38,7 +37,6 @@ import { AuthService } from './services/auth.service';
     FooterComponent,
     LoginComponent,
     RegisterComponent,
-    MainComponent
   ],
   imports: [
     BrowserModule,

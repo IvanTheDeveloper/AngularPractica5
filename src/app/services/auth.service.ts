@@ -42,8 +42,8 @@ export class AuthService {
     }
   }
 
-  getEmail() {
-    return this.auth.currentUser?.email
+  getUsername() {
+    return this.auth.currentUser?.email //displayName
   }
 
 }

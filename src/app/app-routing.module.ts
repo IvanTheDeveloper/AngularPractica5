@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { MainComponent } from './components/main/main.component';
 import { RegisterComponent } from './components/register/register.component';
-import { mainGuard } from './guards/main.guard';
-import { loginGuard } from './guards/login.guard';
+import { OrlasComponent } from './components/orlas/orlas.component';
+import { PersonasComponent } from './components/personas/personas.component';
+import { unauthenticatedUsersGuard } from './guards/unauthenticated-users.guard';
+import { authenticatedUsersGuard } from './guards/authenticated-users.guard';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/login", pathMatch: "full" },
-  { path: "login", component: LoginComponent, canActivate: [loginGuard] },
-  { path: "register", component: RegisterComponent, canActivate: [loginGuard] },
-  { path: "main", component: MainComponent, canActivate: [mainGuard] },
-  { path: "**", redirectTo: "/login" }
+  {path: 'login', component: LoginComponent, canActivate: [unauthenticatedUsersGuard]},
+  {path: 'register', component: RegisterComponent, canActivate: [unauthenticatedUsersGuard]},
+  {path: 'orlas', component: OrlasComponent, canActivate: [authenticatedUsersGuard]},
+  {path: 'personas', component: PersonasComponent, canActivate: [authenticatedUsersGuard]},
+  {path: '', redirectTo: '/main', pathMatch: 'full'}, //landing page
+  {path: 'main', redirectTo: '/orlas', pathMatch: 'full'}, //main page
+  {path: '**', redirectTo: '/main'} //not found
 ];
 
 @NgModule({
