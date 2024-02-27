@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 
+import { AuthService } from './services/auth.service';
+import { environment } from '../environments/environment'
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -21,14 +25,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { AuthService } from './services/auth.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,7 @@ import { AuthService } from './services/auth.service';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    provideFirebaseApp(() => initializeApp({"projectId":"interfacespractica5","appId":"1:330183212335:web:cccf4d112be6581decb5da","storageBucket":"interfacespractica5.appspot.com","apiKey":"AIzaSyBvHdLOpEr0ZBA6MCr616E5lVNVnEOZEBk","authDomain":"interfacespractica5.firebaseapp.com","messagingSenderId":"330183212335"})),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideStorage(() => getStorage()),
@@ -61,7 +65,9 @@ import { AuthService } from './services/auth.service';
     MatMenuModule,
     MatSidenavModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTooltipModule,
+    MatProgressBarModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

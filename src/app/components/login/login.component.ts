@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  progressBar: boolean = false
   fieldForm: FormGroup
   hidePassword: boolean = true
   passwordError: string = ''
@@ -38,36 +39,41 @@ export class LoginComponent {
       const password = this.fieldForm.get('password')?.value;
       this.auth.login(email, password).then(
         () => {
-          this.auth.updateCookieToken()
-          this.router.navigateByUrl('/main')
-          this.openSnackBar("Bienvenido " + this.auth.getUsername())
+          this.LoginActions()
         }
       ).catch(
         error => {
           const errorMessage = error.code == 'auth/invalid-credential' ? 'credenciales inválidas' : 'desconocido'
-          this.openSnackBar("Error al iniciar sesión: " + errorMessage + error.code)
+          this.openSnackBar("Error al iniciar sesión: " + errorMessage)
         }
       )
     }
   }
 
+  async LoginActions() {
+    this.progressBar = true
+    this.auth.updateCookieToken()
+    await new Promise(f => setTimeout(f, 1000))
+    this.router.navigateByUrl('/main')
+    this.openSnackBar("Bienvenido " + this.auth.getUsername())
+  }
+
   loginGoogle() {
     this.auth.loginWithGoogle().then(
       () => {
-        this.auth.updateCookieToken()
-        this.router.navigateByUrl('/main')
+        this.LoginActions()
       }
     ).catch(
       error => {
-        let test = error.code == 'auth/cancelled-popup-request' || error.code == 'googleauth/popup-closed-by-user'
-        test ? this.openSnackBar('prueba') : this.openSnackBar('Error al iniciar sesión con google' + error.code + test)
+        const test = error.code == 'auth/cancelled-popup-request' || error.code == 'auth/popup-closed-by-user'
+        test ? '' : this.openSnackBar('Error al iniciar sesión con google')
       }
     )
   }
 
   openSnackBar(text: string) {
     this.snackBar.open(text, 'Ok', {
-      duration: 10000,
+      duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     });

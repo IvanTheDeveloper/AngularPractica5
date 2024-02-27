@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  progressBar: boolean = false
   fieldForm: FormGroup;
   hidePassword: boolean = true
   hideConfirmPassword: boolean = true
@@ -69,10 +70,8 @@ export class RegisterComponent {
       const email = this.fieldForm.get('email')?.value;
       const password = this.fieldForm.get('password')?.value;
       this.auth.register(email, password).then(
-        _response => {
-          this.auth.updateCookieToken()
-          this.router.navigateByUrl('/main')
-          this.openSnackBar("Bienvenido " + this.auth.getUsername())
+        () => {
+          this.LoginActions()
         }
       ).catch(
         error => {
@@ -81,6 +80,14 @@ export class RegisterComponent {
         }
       )
     }
+  }
+
+  async LoginActions() {
+    this.progressBar = true
+    this.auth.updateCookieToken()
+    await new Promise(f => setTimeout(f, 1000))
+    this.router.navigateByUrl('/main')
+    this.openSnackBar("Bienvenido " + this.auth.getUsername())
   }
 
   openSnackBar(text: string) {
