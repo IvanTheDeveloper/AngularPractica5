@@ -1,3 +1,7 @@
+* {
+    cursor: url('../../../assets/pointers/wow-hand.png'), auto;
+}
+
 .header-toolbar {
     display: flex;
     align-items: center;
@@ -7,4 +11,32 @@
 
 .example-spacer {
     flex: 1 1 auto;
+}
+
+.title {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.icon-display {
+    transform: scale(1.5);
+}
+
+mat-drawer-content {
+    height: 100%;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.example-container {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: white;
 }

@@ -1,0 +1,41 @@
+<!-- product-form.component.html -->
+
+<h1 mat-dialog-title>{{ data.isAdd ? 'Añadir' : 'Editar' }} Producto</h1>
+<div class="productForm" mat-dialog-content>
+  <form [formGroup]="checkoutForm">
+
+    <mat-form-field>
+      <mat-label>ID</mat-label>
+      <input formControlName="id" matInput type="text" placeholder="ID del producto" [disabled]="!data.isAdd">
+      <mat-error *ngIf="id?.invalid && (id?.dirty || id?.touched)">
+        <div *ngIf="id?.hasError('required')">El ID del producto es obligatorio</div>
+        <div *ngIf="id?.hasError('minlength') || id?.hasError('maxlength')">La longitud del ID debe estar entre 4 y 8 caracteres</div>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input formControlName="nombre" matInput type="text" placeholder="Nombre del producto">
+      <mat-error *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+        <div *ngIf="nombre?.hasError('required')">El nombre del producto es obligatorio</div>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label *ngIf="checkoutForm.get('imagen')?.value; else newFile">{{
+        checkoutForm.get('image')?.value.name }}</mat-label>
+        <ng-template #newFile>
+        <mat-label>Seleccionar Imagen</mat-label>
+        </ng-template>
+        <input matInput disabled>
+        <button mat-icon-button matSuffix (click)="fileInput.click()">
+        <mat-icon>cloud_upload</mat-icon>
+        </button>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file"
+        id="file" accept="image/*">
+    </mat-form-field>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="cancelClick()">Cancelar</button>
+  <button mat-button [disabled]="!checkoutForm.valid" (click)="onSubmit()">Guardar</button>
+</div>

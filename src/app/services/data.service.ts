@@ -10,7 +10,10 @@ import { Alumno } from '../models/Alumno';
 })
 export class DataService {
   private readonly COOKIE_KEY = 'my_auth_token'
-  private alumnos: Alumno[] = []
+  private alumnos: Alumno[] = [
+    new Alumno('1234', 'carlos', 'hola'),
+    new Alumno('1298', 'pepe', 'sdsdfdsf'),
+  ]
   private firebaseUrl = 'https://interfacespractica5-default-rtdb.europe-west1.firebasedatabase.app';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }

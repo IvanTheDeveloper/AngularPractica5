@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  userLoggedIn: boolean = true
+  userAuthenticated: boolean = true
 
   constructor(private login: AuthService, private router: Router) { }
 
@@ -17,7 +17,7 @@ export class HeaderComponent {
   }
 
   update() {
-    this.userLoggedIn = this.login.isAuthenticated()
+    this.userAuthenticated = this.login.isAuthenticated()
   }
 
   navLogout() {

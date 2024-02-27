@@ -33,6 +33,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { PersonaFormComponent } from './components/persona-form/persona-form.component';
+import { PersonaListComponent } from './components/persona-list/persona-list.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     FooterComponent,
     LoginComponent,
     RegisterComponent,
+    DeleteDialogComponent,
+    PersonaFormComponent,
+    PersonaListComponent,
   ],
   imports: [
     BrowserModule,

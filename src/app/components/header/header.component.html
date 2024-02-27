@@ -1,22 +1,41 @@
 <mat-toolbar color="primary" class="header-toolbar">
-    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="update()">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+        (click)="drawer.toggle(); update()">
         <mat-icon>menu</mat-icon>
     </button>
     <span>La Orlabeda</span>
     <span class="example-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="update()">
+        <mat-icon>person</mat-icon>
+    </button>
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item disabled="{{userLoggedIn}}" [routerLink]="'/register'">
+    <button mat-menu-item routerLink="/register" *ngIf="!userAuthenticated">
         <mat-icon>person</mat-icon>
         <span>Registrarse</span>
     </button>
-    <button mat-menu-item disabled="{{userLoggedIn}}" [routerLink]="'/login'">
+    <button mat-menu-item routerLink="/login" *ngIf="!userAuthenticated">
         <mat-icon>login</mat-icon>
         <span>Iniciar Sesión</span>
     </button>
-    <button mat-menu-item disabled="{{!userLoggedIn}}" (click)="navLogout()">
+    <button mat-menu-item (click)="navLogout()" *ngIf="userAuthenticated">
         <mat-icon>logout</mat-icon>
         <span>Cerrar Sesión</span>
     </button>
 </mat-menu>
+
+<mat-drawer-container class="example-container" autosize hasBackdrop>
+    <mat-drawer #drawer mode="push">
+        <button mat-button routerLink="/orlas" disabled="{{!userAuthenticated}}">
+            Orlas</button>
+        <mat-divider></mat-divider>
+        <button mat-button routerLink="/personas" disabled="{{!userAuthenticated}}">
+            Personas</button>
+        <mat-divider></mat-divider>
+        <button mat-button></button> <!--ñapa-->
+    </mat-drawer>
+    <div style="display: inline;">
+        <router-outlet></router-outlet>
+    </div>
+</mat-drawer-container>
