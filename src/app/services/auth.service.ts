@@ -35,18 +35,12 @@ export class AuthService {
     const currentUser = this.auth.currentUser
     if (currentUser) {
       currentUser.getIdToken().then(
-        async (token) => { this.cookieService.set(this.COOKIE_KEY, token)
-          await this.delay(1000)}
+        (token) => { this.cookieService.set(this.COOKIE_KEY, token) }
       ).catch(
         () => console.log('No se pudo recuperar el token')
       )
     }
   }
-
-  delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms)); 
-  }
-
 
   getUsername() {
     return this.auth.currentUser?.email //displayName
