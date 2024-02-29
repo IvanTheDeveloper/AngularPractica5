@@ -36,6 +36,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { PersonaFormComponent } from './components/persona-form/persona-form.component';
 import { PersonaListComponent } from './components/persona-list/persona-list.component';
+import { CardComponent } from './components/card/card.component';
+import { CardListComponent } from './components/card-list/card-list.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { PersonaListComponent } from './components/persona-list/persona-list.com
     DeleteDialogComponent,
     PersonaFormComponent,
     PersonaListComponent,
+    CardComponent,
+    CardListComponent,
   ],
   imports: [
     BrowserModule,

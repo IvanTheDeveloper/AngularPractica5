@@ -1,0 +1,94 @@
+mat-card {
+    max-width: 500px;
+    max-height: 700px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 10%;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    background-color: #333333;
+    transition: .5s ease;
+}
+
+mat-card:hover {
+    background-color: #3d4e52;
+}
+
+mat-card-title {
+    padding-bottom: 50%;
+}
+
+mat-card-subtitle {
+    padding-bottom: 100%;
+}
+
+.avatar {
+    border-radius: 100%;
+    
+}
+
+.avatar:hover {
+    opacity: 0.5;
+    
+
+}
+
+.img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    transition: .5s ease;
+}
+
+.img:hover {
+    transform: scale(1.1);
+}
+
+.img-container {
+    position: relative;
+    border-radius: 10px;
+}
+
+.img-container:hover .overlay2 {
+    opacity: 1;
+    transform: scale(0);
+    border-radius: 100%;
+}
+
+.img-container:hover .overlay {
+    opacity: 0.9;
+    transform: scale(1.1);
+    border-radius: 10px;
+
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #25bbe8;
+}
+
+.overlay2 {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #ffffff;
+}
+
+span {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    color: #ffffff;
+}

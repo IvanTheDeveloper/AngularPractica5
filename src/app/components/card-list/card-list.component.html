@@ -1,0 +1,26 @@
+
+<div class="filter">
+    <mat-form-field>
+        <mat-label>Page</mat-label>
+        <input matInput [(ngModel)]="page" type="number" min="1" max="60" placeholder="1">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="button" (click)="applyFilter()">Apply filter</button>
+    <button mat-raised-button color="primary" class="button" (click)="resetFields()">Reset fields</button>
+</div>
+
+
+<div *ngIf="list.length > 0">
+    <div *ngFor="let item of list" class="list">
+        <app-card *ngIf="item?.show" [dataSource]="item"></app-card>
+    </div>
+    <div class="list">
+        <mat-paginator [length]="list.length" [pageSize]="pageSize" [pageSizeOptions]="[1, 4, 8, 20]"
+            (page)="handlePage($event)" aria-label="Select page" class="paginator">
+        </mat-paginator>
+    </div>
+</div>
+<div *ngIf="list.length < 1" class="error">
+    <img src="assets/images/search_error.png" alt="error img">
+    <p>Dead end! No results found for the selected filter.</p>
+</div>
