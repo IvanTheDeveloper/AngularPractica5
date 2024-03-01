@@ -1,52 +1,50 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginService } from './login.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Alumno } from '../models/Alumno';
+import { firebaseConfig } from '../app.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private readonly COOKIE_KEY = 'my_auth_token'
-  private alumnos: Alumno[] = [
-    new Alumno('1234', 'carlos', 'hola'),
-    new Alumno('1298', 'pepe', 'sdsdfdsf'),
-  ]
-  private firebaseUrl = 'https://interfacespractica5-default-rtdb.europe-west1.firebasedatabase.app';
+  private firebaseUrl = firebaseConfig.databaseURL
+  private firebaseFolder = 'alumnos'
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  private objList!: any[]
 
-  refreshAlumno(alumno: Alumno): Alumno[] {
-    const index = this.alumnos.findIndex(pr => pr.id === alumno.id)
-    if (index >= 0 && index < this.alumnos.length) {
-      this.alumnos[index] = alumno;
+  constructor(private cookieService: CookieService, private http: HttpClient) { }
+
+  refreshObjList(obj: any): any[] {
+    const index = this.objList.findIndex(parameter => parameter.id === obj.id)
+    if (index >= 0 && index < this.objList.length) {
+      this.objList[index] = obj;
     }
-    return this.alumnos;
+    return this.objList;
   }
 
-  updateAlumno(alumno: Alumno) {
+  updateObj(obj: any) {
     const token = this.cookieService.get(this.COOKIE_KEY)
-    return this.http.put(this.firebaseUrl + '/alumnos/' + alumno.id + '.json?auth=' + token, alumno);
+    return this.http.put(this.firebaseUrl + '/' + this.firebaseFolder + '/' + obj.id + '.json?auth=' + token, obj);
   }
 
-  saveAlumnos(data: any): Observable<any> {
+  saveObjList(objList: any): Observable<any> { //objList must be a dictionary (key-value)
     const token = this.cookieService.get(this.COOKIE_KEY)
-    return this.http.put(this.firebaseUrl + '/alumnos.json?auth=' + token, data);
+    return this.http.put(this.firebaseUrl + '/' + this.firebaseFolder + '.json?auth=' + token, objList);
   }
 
-  getAlumnos(): Observable<any> {
+  getObjList(): Observable<any> {
     const token = this.cookieService.get(this.COOKIE_KEY)
-    return this.http.get(this.firebaseUrl + '/alumnos.json?auth=' + token);
+    return this.http.get(this.firebaseUrl + '/' + this.firebaseFolder + '.json?auth=' + token);
   }
 
-  addAlumno(alumno: Alumno): Observable<any> {
+  addObj(obj: any): Observable<any> {
     const token = this.cookieService.get(this.COOKIE_KEY)
-    return this.http.put(this.firebaseUrl + '/alumnos/' + alumno.id + '.json?auth=' + token, alumno);
+    return this.http.put(this.firebaseUrl + '/' + this.firebaseFolder + '/' + obj.id + '.json?auth=' + token, obj);
   }
 
-  deleteAlumno(id: string) {
+  deleteObj(id: string) {
     const token = this.cookieService.get(this.COOKIE_KEY)
     let httpOptions = {
       headers: new HttpHeaders({
@@ -55,7 +53,7 @@ export class DataService {
         'Authorization': 'Bearer ' + token
       })
     }
-    return this.http.delete(this.firebaseUrl + '/alumnos/' + id + '.json?auth=' + token, httpOptions)
+    return this.http.delete(this.firebaseUrl + '/' + this.firebaseFolder + '/' + id + '.json?auth=' + token, httpOptions)
   }
 
 }

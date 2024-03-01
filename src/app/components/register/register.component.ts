@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { pwdRegex } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,56 +12,55 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent {
   progressBar: boolean = false
-  fieldForm: FormGroup;
+  fieldForm: FormGroup
   hidePassword: boolean = true
   hideConfirmPassword: boolean = true
-  passwordError: string = ''
-  confirmPasswordError: string = ''
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private snackBar: MatSnackBar) {
+
     this.fieldForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30), Validators.pattern(pwdRegex)]),
+      confirmPassword: new FormControl('', [Validators.required]),
     }, {
       validators: this.validate('password', 'confirmPassword')
-    });
+    })
   }
 
-  isInvalidEmail() {
-    const email = this.fieldForm.get('email')
-    return email?.invalid && (email?.dirty || email?.touched)
+  get email() {
+    return this.fieldForm.get('email')
   }
 
-  isInvalidPassword() {
-    const password = this.fieldForm.get('password')
-    this.passwordError = 'La contraseña debe tener entre 8 y 30 caracteres'
-    return password?.invalid && (password?.dirty || password?.touched)
+  get password() {
+    return this.fieldForm.get('password')
   }
 
-  isInvalidConfirmPassword() {
+  get confirmPassword() {
+    return this.fieldForm.get('confirmPassword')
+  }
+
+  doPasswordsMatch() {
     const password = this.fieldForm.get('password')
     const confirmPassword = this.fieldForm.get('confirmPassword')
-    password == confirmPassword ? this.confirmPasswordError = 'La contraseña debe tener entre 8 y 30 caracteres' : this.confirmPasswordError = 'Las contraseñas no coinciden'
-    return confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched) && password !== confirmPassword
+    return confirmPassword && (password === confirmPassword)
   }
 
   validate(controlName: string, matchingControlName: string): ValidatorFn {
     return (abstractControl: AbstractControl) => {
-      const control = abstractControl.get(controlName);
-      const matchingControl = abstractControl.get(matchingControlName);
+      const control = abstractControl.get(controlName)
+      const matchingControl = abstractControl.get(matchingControlName)
 
       if (matchingControl!.errors && !matchingControl!.errors?.['confirmedValidator']) {
-        return null;
+        return null
       }
 
       if (control!.value !== matchingControl!.value) {
-        const error = { confirmedValidator: 'Passwords do not match.' };
-        matchingControl!.setErrors(error);
-        return error;
+        const error = { confirmedValidator: 'Passwords do not match.' }
+        matchingControl!.setErrors(error)
+        return error
       } else {
-        matchingControl!.setErrors(null);
-        return null;
+        matchingControl!.setErrors(null)
+        return null
       }
     }
   }

@@ -11,7 +11,8 @@
                     <mat-label>Correo</mat-label>
                     <input matInput formControlName="email" placeholder="Introduce tu email">
                     <mat-icon matSuffix></mat-icon>
-                    <mat-error *ngIf="isInvalidEmail()">El correo introducido no es válido</mat-error>
+                    <mat-error *ngIf="email?.hasError('required')">Este campo es obligatorio</mat-error>
+                    <mat-error *ngIf="email?.hasError('email')">El correo no es válido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
@@ -20,7 +21,12 @@
                         placeholder="Introduce tu contraseña">
                     <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{ hidePassword ? 'visibility_off' :
                         'visibility' }}</mat-icon>
-                    <mat-error *ngIf="isInvalidPassword()">{{passwordError}}</mat-error>
+                    <mat-error *ngIf="password?.hasError('required')">Este campo es obligatorio.</mat-error>
+                    <mat-error *ngIf="password?.hasError('pattern'); else elseBlock">La contraseña debe contener al
+                        menos una mayúscula, una minúscula, un número y un símbolo.</mat-error>
+                    <ng-template #elseBlock><mat-error
+                            *ngIf="password?.hasError('minlength') || password?.hasError('maxlength')">La contraseña
+                            debe tener entre 8 y 30 caracteres.</mat-error></ng-template>
                 </mat-form-field>
 
                 <button mat-raised-button color="primary" type="submit">Acceder</button>

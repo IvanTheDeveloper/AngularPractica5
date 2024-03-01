@@ -39,7 +39,7 @@ export class PersonaListComponent {
         this.uploadFileService.uploadFile(filePath, result.image).then(
           (imagePath) => {
             result.image = imagePath
-            this.personaService.addAlumno(result).subscribe(
+            this.personaService.addObj(result).subscribe(
               (response) => {
                 this.alumnos.push(result)
                 this.dataSource.data = this.alumnos
@@ -67,7 +67,7 @@ export class PersonaListComponent {
     dialogRef.afterClosed().subscribe((result) => {
       // Aquí puedes manejar la lógica después de cerrar el formulario
       if (result) {
-        this.personaService.updateAlumno(result).subscribe(
+        this.personaService.updateObj(result).subscribe(
           () => {
             let index = this.alumnos.findIndex(p => p.id === result.id);
             if (index >= 0 && index < this.alumnos.length) {
@@ -92,7 +92,7 @@ export class PersonaListComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.personaService.deleteAlumno(alumno.id).subscribe(
+        this.personaService.deleteObj(alumno.id).subscribe(
           (result) => {
             this.uploadFileService.deleteFile(alumno.imagen).then(
               () => {
@@ -126,7 +126,7 @@ export class PersonaListComponent {
       productsDictionary[p.id] = p;
     });
     console.log(productsDictionary)
-    this.personaService.saveAlumnos(productsDictionary).subscribe(
+    this.personaService.saveObjList(productsDictionary).subscribe(
       (response) => {
         console.log("Los datos se han guardado correctamente");
       },
@@ -137,7 +137,7 @@ export class PersonaListComponent {
   }
 
   getProducts() {
-    this.personaService.getAlumnos().subscribe(
+    this.personaService.getObjList().subscribe(
       (response) => {
         let products: Alumno[] = Object.values(response)
         this.dataSource.data = products

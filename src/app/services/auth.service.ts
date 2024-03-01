@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
 import { CookieService } from 'ngx-cookie-service';
+import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,22 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthService {
   private readonly COOKIE_KEY = 'my_auth_token';
 
-  constructor(private auth: Auth, private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService, private auth: Auth) { }
+
+  updateCookieToken() {
+    const currentUser = this.auth.currentUser
+    if (currentUser) {
+      currentUser.getIdToken().then(
+        (token) => { this.cookieService.set(this.COOKIE_KEY, token) }
+      ).catch(
+        () => console.log('Couldnt retrieve token')
+      )
+    }
+  }
+
+  isAuthenticated(): boolean {
+    return this.cookieService.check(this.COOKIE_KEY)
+  }
 
   register(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password)
@@ -18,28 +34,13 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, email, password)
   }
 
-  loginWithGoogle() {
+  signinWithGoogle() {
     return signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
   logout(): Promise<void> {
     this.cookieService.delete(this.COOKIE_KEY);
     return signOut(this.auth)
-  }
-
-  isAuthenticated(): boolean {
-    return this.cookieService.check(this.COOKIE_KEY)
-  }
-
-  updateCookieToken() {
-    const currentUser = this.auth.currentUser
-    if (currentUser) {
-      currentUser.getIdToken().then(
-        (token) => { this.cookieService.set(this.COOKIE_KEY, token) }
-      ).catch(
-        () => console.log('No se pudo recuperar el token')
-      )
-    }
   }
 
   getUsername() {

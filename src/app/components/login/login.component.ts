@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { pwdRegex } from 'src/app/app.module';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,24 +14,20 @@ export class LoginComponent {
   progressBar: boolean = false
   fieldForm: FormGroup
   hidePassword: boolean = true
-  passwordError: string = ''
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private snackBar: MatSnackBar) {
     this.fieldForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30), Validators.pattern(pwdRegex)]]
     });
   }
 
-  isInvalidEmail() {
-    const email = this.fieldForm.get('email')
-    return email?.invalid && (email?.dirty || email?.touched)
+  get email() {
+    return this.fieldForm.get('email');
   }
 
-  isInvalidPassword() {
-    const password = this.fieldForm.get('password')
-    this.passwordError = 'La contraseña debe tener entre 8 y 30 caracteres'
-    return password?.invalid && (password?.dirty || password?.touched)
+  get password() {
+    return this.fieldForm.get('password');
   }
 
   onSubmit() {
@@ -59,7 +56,7 @@ export class LoginComponent {
   }
 
   loginGoogle() {
-    this.auth.loginWithGoogle().then(
+    this.auth.signinWithGoogle().then(
       () => {
         this.LoginActions()
       }
