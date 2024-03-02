@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { firebaseConfig } from '../app.module';
+import { Alumno } from '../models/Alumno';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class DataService {
   private firebaseUrl = firebaseConfig.databaseURL
   private firebaseFolder = 'alumnos'
 
-  private objList!: any[]
+  private objList: any[] = []
 
   constructor(private cookieService: CookieService, private http: HttpClient) { }
 

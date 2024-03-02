@@ -1,5 +1,6 @@
 <div class="container">
   <mat-card>
+    <mat-progress-bar mode="indeterminate" *ngIf="progressBar"></mat-progress-bar>
     <mat-card-header class="centerer">
       <mat-card-title>Registro</mat-card-title>
     </mat-card-header>
@@ -21,11 +22,8 @@
           <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{ hidePassword ? 'visibility_off' :
             'visibility'}}</mat-icon>
           <mat-error *ngIf="password?.hasError('required')">Este campo es obligatorio.</mat-error>
-          <mat-error *ngIf="password?.hasError('pattern'); else elseBlock">La contraseña debe contener al menos una
-            mayúscula,
-            una minúscula, un número y un símbolo.</mat-error>
-          <ng-template #elseBlock><mat-error
-              *ngIf="password?.hasError('minlength') || password?.hasError('maxlength')">La contraseña
+          <mat-error *ngIf="password?.hasError('pattern'); else passwordElseBlock">La contraseña debe contener al menos una mayúscula, una minúscula, un número y un símbolo.</mat-error>
+          <ng-template #passwordElseBlock><mat-error *ngIf="password?.hasError('minlength') || password?.hasError('maxlength')">La contraseña
               debe tener entre 8 y 30 caracteres.</mat-error></ng-template>
         </mat-form-field>
 
@@ -35,9 +33,9 @@
             placeholder="Introduce tu contraseña de nuevo">
           <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">{{ hideConfirmPassword ?
             'visibility_off' : 'visibility' }}</mat-icon>
-          <mat-error *ngIf="confirmPassword?.hasError('required'); else elseBlock">Este campo es
+          <mat-error *ngIf="confirmPassword?.hasError('required'); else confirmPasswordElseBlock">Este campo es
             obligatorio.</mat-error>
-          <ng-template #elseBlock><mat-error *ngIf="!doPasswordsMatch()">Las contraseñas no
+          <ng-template #confirmPasswordElseBlock><mat-error *ngIf="!doPasswordsMatch()">Las contraseñas no
               coinciden</mat-error></ng-template>
         </mat-form-field>
 

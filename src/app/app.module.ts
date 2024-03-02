@@ -37,6 +37,7 @@ import { PersonaFormComponent } from './components/persona-form/persona-form.com
 import { PersonaListComponent } from './components/persona-list/persona-list.component';
 import { CardComponent } from './components/card/card.component';
 import { CardListComponent } from './components/card-list/card-list.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const pwdRegex = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[@#$%&¿?¡!*^-_])/;
 
@@ -62,6 +63,7 @@ export const firebaseConfig = {
     PersonaListComponent,
     CardComponent,
     CardListComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

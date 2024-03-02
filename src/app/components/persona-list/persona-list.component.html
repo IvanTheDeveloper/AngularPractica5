@@ -1,60 +1,43 @@
-<!-- productos-lista.component.html -->
-
 <div class="title">
-    <h2>Lista de Productos</h2>
-    <div class="buttons">
-      <button mat-fab color="primary" aria-label="Añadir producto" (click)="addProducto()">
-        <mat-icon>add</mat-icon>
-      </button>
-      <button mat-fab color="primary" aria-label="Guardar Productos" (click)="saveProducts()">
-        <mat-icon>save</mat-icon>
-      </button>
-    </div>
-</div>
-  
-  <div class="tableData mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matPaginator>
-  
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID"> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
-  
-      <!-- Nombre Column -->
-      <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by nombre"> Nombre </th>
-        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-      </ng-container>
-  
-      <!-- Cantidad Column -->
-      <ng-container matColumnDef="cantidad">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cantidad"> Cantidad </th>
-        <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
-      </ng-container>
-  
-      <!-- Precio Column -->
-      <ng-container matColumnDef="precio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by precio"> Precio </th>
-        <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
-      </ng-container>
-  
-      <!-- Acción Column -->
-      <ng-container matColumnDef="accion">
-        <th mat-header-cell *matHeaderCellDef> Acción </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button aria-label="Eliminar producto" (click)="removeProducto(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-icon-button aria-label="Editar producto" (click)="editProducto(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecciona la página de productos"></mat-paginator>
+  <h2>Lista de Personas</h2>
+  <div class="buttons">
+    <button mat-fab color="primary" aria-label="Añadir persona" (click)="addPersona()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-fab color="primary" aria-label="Guardar personas" (click)="savePersonas()">
+      <mat-icon>save</mat-icon>
+    </button>
   </div>
-  
+</div>
+
+<div class="tableData mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matPaginator>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID"> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by nombre"> Nombre </th>
+      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef> Acción </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="Eliminar persona" (click)="removePersona(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Editar persona" (click)="editPersona(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+    aria-label="Selecciona la página de productos"></mat-paginator>
+</div>
