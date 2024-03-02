@@ -1,33 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/services/data.service';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PersonaFormComponent } from '../persona-form/persona-form.component';
 import { UploadFileService } from 'src/app/services/upload-file.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AlumnoFormComponent } from '../alumno-form/alumno-form.component';
 
 @Component({
-  selector: 'app-persona-list',
-  templateUrl: './persona-list.component.html',
-  styleUrls: ['./persona-list.component.scss']
+  selector: 'app-alumno-list',
+  templateUrl: './alumno-list.component.html',
+  styleUrls: ['./alumno-list.component.scss']
 })
-export class PersonaListComponent {
+export class AlumnoListComponent {
   displayedColumns: string[] = ['id', 'nombre', 'accion']
   dataSource: MatTableDataSource<any>
   objectList: any[] = []
 
-  constructor(private dataService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar, private uploadFileService: UploadFileService) {
+  // Filter + paginator
+  @ViewChild(MatPaginator) paginator!: MatPaginator
+  pageSizeOptions: number[] = [1, 4, 8, 12]
+  pageSize: number = 4
+  pageIndex: number = 0
+
+  constructor(private dataService: DataService, public dialog: MatDialog,
+    private snackBar: MatSnackBar, private uploadFileService: UploadFileService) {
     this.dataSource = new MatTableDataSource<any>();
   }
 
   ngOnInit(): void {
-    this.getObjectList()
-    this.dataSource.data = this.objectList
+    this.getObjectList();
+  }
+
+  getObjectList(): void {
+    this.dataService.getObjectList().subscribe(
+      (response) => {
+        let list: any[] = Object.values(response);
+        this.dataSource.data = list;
+        this.objectList = list;
+        this.paginateData(); // Call paginateData after getting the object list
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  paginateData(): void {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginator.length = this.objectList.length;
+    this.dataSource.data = this.objectList.slice(startIndex, endIndex);
+  }
+
+  handlePage(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.paginateData();
   }
 
   addObject(): void {
-    const dialogRef = this.dialog.open(PersonaFormComponent, {
+    const dialogRef = this.dialog.open(AlumnoFormComponent, {
       width: '500px',
       data: { isAdd: true, info: {} as any }
     });
@@ -37,11 +71,11 @@ export class PersonaListComponent {
         const filePath = `images/${Date.now()}_${result.image.name}`;
         this.uploadFileService.uploadFile(filePath, result.image).then(
           (imagePath) => {
-            result.image = imagePath
+            result.image = imagePath;
             this.dataService.addObject(result).subscribe(
               (response) => {
-                this.objectList.push(result)
-                this.dataSource.data = this.objectList
+                this.objectList.push(result);
+                this.paginateData(); // Update pagination after adding object
                 console.log("subido correctamente")
               },
               (error) => {
@@ -58,7 +92,7 @@ export class PersonaListComponent {
 
   editObject(obj: any): void {
     console.log(obj)
-    const dialogRef = this.dialog.open(PersonaFormComponent, {
+    const dialogRef = this.dialog.open(AlumnoFormComponent, {
       width: '400px',
       data: { isAdd: false, info: obj },
     });
@@ -71,7 +105,7 @@ export class PersonaListComponent {
             let index = this.objectList.findIndex(p => p.id === result.id);
             if (index >= 0 && index < this.objectList.length) {
               this.objectList[index] = result;
-              this.dataSource.data = this.objectList;
+              this.paginateData(); // Update pagination after editing object
             }
             this.showSnackbar('actualizado correctamente', 'success-message')
           },
@@ -99,8 +133,8 @@ export class PersonaListComponent {
                 let index = this.objectList.findIndex(p => p.id === obj.id);
                 if (index >= 0 && index < this.objectList.length) {
                   this.objectList.splice(index, 1);
+                  this.paginateData(); // Update pagination after removing object
                 }
-                this.dataSource.data = this.objectList;
               }
             ).catch()
           },
@@ -134,18 +168,5 @@ export class PersonaListComponent {
       }
     )
   }
-
-  getObjectList() {
-    this.dataService.getObjectList().subscribe(
-      (response) => {
-        let list: any[] = Object.values(response)
-        this.dataSource.data = list
-        this.objectList = list
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
-  }
-
+  
 }

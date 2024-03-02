@@ -10,6 +10,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { AuthService } from './services/auth.service';
+import { DataService } from './services/data.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -33,11 +34,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
-import { PersonaFormComponent } from './components/persona-form/persona-form.component';
-import { PersonaListComponent } from './components/persona-list/persona-list.component';
 import { CardComponent } from './components/card/card.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AlumnoFormComponent } from './components/alumno-form/alumno-form.component';
+import { AlumnoListComponent } from './components/alumno-list/alumno-list.component';
+import { ProfesorListComponent } from './components/profesor-list/profesor-list.component';
+import { ProfesorFormComponent } from './components/profesor-form/profesor-form.component';
 
 export const pwdRegex = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[@#$%&¿?¡!*^-_])/;
 
@@ -59,11 +62,13 @@ export const firebaseConfig = {
     LoginComponent,
     RegisterComponent,
     DeleteDialogComponent,
-    PersonaFormComponent,
-    PersonaListComponent,
     CardComponent,
     CardListComponent,
     PageNotFoundComponent,
+    AlumnoFormComponent,
+    AlumnoListComponent,
+    ProfesorListComponent,
+    ProfesorFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +97,7 @@ export const firebaseConfig = {
     MatTooltipModule,
     MatProgressBarModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

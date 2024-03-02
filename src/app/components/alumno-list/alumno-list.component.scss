@@ -1,0 +1,48 @@
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+}
+
+.title h2 {
+    font-size: 30px;
+}
+
+.tableData {
+    max-width: 90%;
+    /* Establece el ancho máximo que prefieras */
+    margin: 0 auto;
+    /* Centra el elemento horizontalmente */
+}
+
+/* Agrega estos estilos para los Snackbars */
+
+.success-snackbar {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.error-snackbar {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+
+    button {
+        margin: 5px;
+    }
+
+}

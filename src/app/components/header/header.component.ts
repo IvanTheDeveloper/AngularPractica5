@@ -9,19 +9,21 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent {
   userAuthenticated: boolean = true
+  username: any = ''
 
-  constructor(private login: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.update()
   }
 
   update() {
-    this.userAuthenticated = this.login.isAuthenticated()
+    this.userAuthenticated = this.auth.isAuthenticated()
+    this.username = this.auth.getUsername()
   }
 
   navLogout() {
-    this.login.logout()
+    this.auth.logout()
     this.router.navigateByUrl('/login')
     this.update()
   }

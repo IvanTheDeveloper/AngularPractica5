@@ -24,7 +24,8 @@
                     <mat-error *ngIf="password?.hasError('required')">Este campo es obligatorio.</mat-error>
                     <mat-error *ngIf="password?.hasError('pattern'); else elseBlock">La contraseña debe contener al
                         menos una mayúscula, una minúscula, un número y un símbolo.</mat-error>
-                    <ng-template #elseBlock><mat-error *ngIf="password?.hasError('minlength') || password?.hasError('maxlength')">La contraseña
+                    <ng-template #elseBlock><mat-error
+                            *ngIf="password?.hasError('minlength') || password?.hasError('maxlength')">La contraseña
                             debe tener entre 8 y 30 caracteres.</mat-error></ng-template>
                 </mat-form-field>
 

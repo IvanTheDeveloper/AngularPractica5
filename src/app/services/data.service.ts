@@ -10,7 +10,7 @@ import { firebaseConfig } from '../app.module';
 export class DataService {
   private readonly COOKIE_KEY = 'my_auth_token'
   private firebaseUrl = firebaseConfig.databaseURL
-  private firebaseFolder = 'alumnos'
+  private firebaseFolder = 'personas'
   private objectList: any[] = []
 
   constructor(private cookieService: CookieService, private http: HttpClient) { }

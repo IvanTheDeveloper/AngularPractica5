@@ -1,37 +1,35 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Alumno } from 'src/app/models/Alumno';
 
 @Component({
-  selector: 'app-persona-form',
-  templateUrl: './persona-form.component.html',
-  styleUrls: ['./persona-form.component.scss']
+  selector: 'app-alumno-form',
+  templateUrl: './alumno-form.component.html',
+  styleUrls: ['./alumno-form.component.scss']
 })
-export class PersonaFormComponent {
-  checkoutForm: FormGroup
+export class AlumnoFormComponent {
+  checkoutForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, public dialogRef: MatDialogRef<PersonaFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { info: Alumno, isAdd: boolean }) {
+  constructor(private formBuilder: FormBuilder, public dialogRef: MatDialogRef<AlumnoFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { info: any, isAdd: boolean }) {
     this.checkoutForm = this.formBuilder.group({
       id: [this.data.isAdd ? '' : this.data.info.id, [Validators.required]],
       nombre: [this.data.isAdd ? '' : this.data.info.nombre, [Validators.required]],
-      image: [null]
+      imagen: [null]
     })
-
     if (!this.data.isAdd) {
       this.checkoutForm.get('id')?.disable()
     }
   }
 
   onSubmit(): void {
-    const alumno: Alumno = {
+    const obj: any = {
       id: this.id?.value,
       nombre: this.nombre?.value,
-      imagen: this.image?.value,
+      image: this.imagen?.value
     }
     this.checkoutForm.reset()
-    this.dialogRef.close(alumno)
+    this.dialogRef.close(obj)
   }
 
   get id() {
@@ -42,8 +40,8 @@ export class PersonaFormComponent {
     return this.checkoutForm.get('nombre')
   }
 
-  get image() {
-    return this.checkoutForm.get('image')
+  get imagen() {
+    return this.checkoutForm.get('imagen')
   }
 
   cancelClick(): void {
@@ -52,7 +50,7 @@ export class PersonaFormComponent {
 
   onFileSelected(event: any): void {
     const file = event.target.files[0]
-    this.checkoutForm.patchValue({ image: file })
+    this.checkoutForm.patchValue({ imagen: file })
   }
 
 }
