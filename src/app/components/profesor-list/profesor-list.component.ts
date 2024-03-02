@@ -20,8 +20,8 @@ export class ProfesorListComponent {
 
   // Filter + paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator
-  pageSizeOptions: number[] = [1, 5, 10]
-  pageSize: number = 5
+  pageSizeOptions: number[] = [1, 4, 8]
+  pageSize: number = 4
   pageIndex: number = 0
 
   constructor(private dataService: ProfesoresDataService, public dialog: MatDialog,

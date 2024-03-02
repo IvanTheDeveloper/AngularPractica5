@@ -1,9 +1,23 @@
+.container {
+    min-height: 100%;
+    background-color: #333333;
+}
+
 table {
     width: 100%;
+    padding-bottom: 20px;
 }
 
 th.mat-sort-header-sorted {
     color: black;
+}
+
+.ng-container {
+    text-align: center;
+}
+
+th, td {
+    padding: 1%;
 }
 
 .title {
@@ -11,7 +25,8 @@ th.mat-sort-header-sorted {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin: 20px;
+    padding-top: 50px;
+    color: #fff;
 }
 
 .title h2 {
@@ -19,13 +34,10 @@ th.mat-sort-header-sorted {
 }
 
 .tableData {
-    max-width: 90%;
-    /* Establece el ancho máximo que prefieras */
+    max-width: 80%;
     margin: 0 auto;
-    /* Centra el elemento horizontalmente */
+    padding: 5%;
 }
-
-/* Agrega estos estilos para los Snackbars */
 
 .success-snackbar {
     background-color: #4caf50;
