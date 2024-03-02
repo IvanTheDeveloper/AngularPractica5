@@ -7,5 +7,5 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./delete-dialog.component.scss']
 })
 export class DeleteDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { nombreProducto: string }) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { objName: string }) { }
 }

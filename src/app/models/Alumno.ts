@@ -1,7 +1,7 @@
 export class Alumno {
     id: string
-    imagen: string
     nombre: string
+    imagen: string
 
     constructor(id: string, imagen: string, nombre: string) {
         this.id = id

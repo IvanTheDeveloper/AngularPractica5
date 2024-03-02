@@ -21,8 +21,8 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label *ngIf="checkoutForm.get('imagen')?.value; else newFile">{{
-        checkoutForm.get('imagen')?.value.name }}</mat-label>
+      <mat-label *ngIf="checkoutForm.get('image')?.value; else newFile">{{
+        checkoutForm.get('image')?.value.name }}</mat-label>
       <ng-template #newFile>
         <mat-label>Seleccionar Imagen</mat-label>
       </ng-template>
@@ -30,7 +30,7 @@
       <button mat-icon-button matSuffix (click)="fileInput.click()">
         <mat-icon>cloud_upload</mat-icon>
       </button>
-      <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="imagen/*">
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="image/*">
     </mat-form-field>
     
 

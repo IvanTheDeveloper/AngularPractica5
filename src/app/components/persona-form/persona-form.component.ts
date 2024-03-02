@@ -14,9 +14,9 @@ export class PersonaFormComponent {
   constructor(private formBuilder: FormBuilder, public dialogRef: MatDialogRef<PersonaFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { info: Alumno, isAdd: boolean }) {
     this.checkoutForm = this.formBuilder.group({
-      id: [this.data.isAdd ? '' : this.data.info.id, [Validators.required,]],
-      nombre: [this.data.isAdd ? '' : this.data.info.nombre, [Validators.required,]],
-      imagen: [null],
+      id: [this.data.isAdd ? '' : this.data.info.id, [Validators.required]],
+      nombre: [this.data.isAdd ? '' : this.data.info.nombre, [Validators.required]],
+      image: [null]
     })
 
     if (!this.data.isAdd) {
@@ -27,8 +27,8 @@ export class PersonaFormComponent {
   onSubmit(): void {
     const alumno: Alumno = {
       id: this.id?.value,
-      imagen: this.imagen?.value,
       nombre: this.nombre?.value,
+      imagen: this.image?.value,
     }
     this.checkoutForm.reset()
     this.dialogRef.close(alumno)
@@ -38,12 +38,12 @@ export class PersonaFormComponent {
     return this.checkoutForm.get('id')
   }
 
-  get imagen() {
-    return this.checkoutForm.get('imagen')
-  }
-
   get nombre() {
     return this.checkoutForm.get('nombre')
+  }
+
+  get image() {
+    return this.checkoutForm.get('image')
   }
 
   cancelClick(): void {
@@ -52,7 +52,7 @@ export class PersonaFormComponent {
 
   onFileSelected(event: any): void {
     const file = event.target.files[0]
-    this.checkoutForm.patchValue({ imagen: file })
+    this.checkoutForm.patchValue({ image: file })
   }
 
 }

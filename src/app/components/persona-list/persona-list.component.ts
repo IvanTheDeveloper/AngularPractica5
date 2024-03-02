@@ -6,7 +6,6 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PersonaFormComponent } from '../persona-form/persona-form.component';
 import { UploadFileService } from 'src/app/services/upload-file.service';
-import { Alumno } from 'src/app/models/Alumno';
 
 @Component({
   selector: 'app-persona-list',
@@ -15,22 +14,22 @@ import { Alumno } from 'src/app/models/Alumno';
 })
 export class PersonaListComponent {
   displayedColumns: string[] = ['id', 'nombre', 'accion']
-  dataSource: MatTableDataSource<Alumno>
-  alumnos: Alumno[] = []
+  dataSource: MatTableDataSource<any>
+  objectList: any[] = []
 
-  constructor(private personaService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar, private uploadFileService: UploadFileService) {
-    this.dataSource = new MatTableDataSource<Alumno>();
+  constructor(private dataService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar, private uploadFileService: UploadFileService) {
+    this.dataSource = new MatTableDataSource<any>();
   }
 
   ngOnInit(): void {
-    this.getPersonas();
-    this.dataSource.data = this.alumnos;
+    this.getObjectList()
+    this.dataSource.data = this.objectList
   }
 
-  addPersona(): void {
+  addObject(): void {
     const dialogRef = this.dialog.open(PersonaFormComponent, {
       width: '500px',
-      data: { isAdd: true, info: {} as Alumno }
+      data: { isAdd: true, info: {} as any }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -39,14 +38,14 @@ export class PersonaListComponent {
         this.uploadFileService.uploadFile(filePath, result.image).then(
           (imagePath) => {
             result.image = imagePath
-            this.personaService.addObj(result).subscribe(
+            this.dataService.addObject(result).subscribe(
               (response) => {
-                this.alumnos.push(result)
-                this.dataSource.data = this.alumnos
-                console.log("Persona subido correctamente")
+                this.objectList.push(result)
+                this.dataSource.data = this.objectList
+                console.log("subido correctamente")
               },
               (error) => {
-                console.log("No se pudo subir la persona")
+                console.log("No se pudo subir")
               }
             )
           }
@@ -57,55 +56,56 @@ export class PersonaListComponent {
     });
   }
 
-  editPersona(alumno: Alumno): void {
-    console.log(alumno)
+  editObject(obj: any): void {
+    console.log(obj)
     const dialogRef = this.dialog.open(PersonaFormComponent, {
       width: '400px',
-      data: { isAdd: false, info: alumno },
+      data: { isAdd: false, info: obj },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+
       if (result) {
-        this.personaService.updateObj(result).subscribe(
+        this.dataService.updateObject(result).subscribe(
           () => {
-            let index = this.alumnos.findIndex(p => p.id === result.id);
-            if (index >= 0 && index < this.alumnos.length) {
-              this.alumnos[index] = result;
-              this.dataSource.data = this.alumnos;
+            let index = this.objectList.findIndex(p => p.id === result.id);
+            if (index >= 0 && index < this.objectList.length) {
+              this.objectList[index] = result;
+              this.dataSource.data = this.objectList;
             }
-            this.showSnackbar('La persona se ha actualizado correctamente', 'success-message')
+            this.showSnackbar('actualizado correctamente', 'success-message')
           },
           () => {
-            this.showSnackbar('La persona no se pudo editar', 'error-message')
+            this.showSnackbar('no se pudo editar', 'error-message')
           }
         )
       }
     });
   }
 
-  removePersona(alumno: Alumno): void {
-    let nombreAlumno = alumno.nombre;
+  removeObject(obj: any): void {
+    let objName = obj.nombre;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: { nombreAlumno }
+      data: { objName }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.personaService.deleteObj(alumno.id).subscribe(
+        this.dataService.deleteObject(obj.id).subscribe(
           (result) => {
-            this.uploadFileService.deleteFile(alumno.imagen).then(
+            this.uploadFileService.deleteFile(obj.image).then(
               () => {
-                this.showSnackbar('La persona se ha eliminado correctamente', 'success-message')
-                let index = this.alumnos.findIndex(p => p.id === alumno.id);
-                if (index >= 0 && index < this.alumnos.length) {
-                  this.alumnos.splice(index, 1);
+                this.showSnackbar('eliminado correctamente', 'success-message')
+                let index = this.objectList.findIndex(p => p.id === obj.id);
+                if (index >= 0 && index < this.objectList.length) {
+                  this.objectList.splice(index, 1);
                 }
-                this.dataSource.data = this.alumnos;
+                this.dataSource.data = this.objectList;
               }
             ).catch()
           },
           (error) => {
-            this.showSnackbar('El producto no se pudo eliminar', 'error-message');
+            this.showSnackbar('no se pudo eliminar', 'error-message');
           }
         )
       }
@@ -119,13 +119,13 @@ export class PersonaListComponent {
     });
   }
 
-  savePersonas() {
-    let personasDictionary: { [id: string]: Alumno } = {};
-    this.alumnos.forEach(p => {
-      personasDictionary[p.id] = p;
+  saveObjectList() {
+    let objectDictionary: { [id: string]: any } = {};
+    this.objectList.forEach(p => {
+      objectDictionary[p.id] = p;
     });
-    console.log(personasDictionary)
-    this.personaService.saveObjList(personasDictionary).subscribe(
+    console.log(objectDictionary)
+    this.dataService.saveObjectList(objectDictionary).subscribe(
       (response) => {
         console.log("Los datos se han guardado correctamente");
       },
@@ -135,12 +135,12 @@ export class PersonaListComponent {
     )
   }
 
-  getPersonas() {
-    this.personaService.getObjList().subscribe(
+  getObjectList() {
+    this.dataService.getObjectList().subscribe(
       (response) => {
-        let personas: Alumno[] = Object.values(response)
-        this.dataSource.data = personas
-        this.alumnos = personas
+        let list: any[] = Object.values(response)
+        this.dataSource.data = list
+        this.objectList = list
       },
       (error) => {
         console.log(error);

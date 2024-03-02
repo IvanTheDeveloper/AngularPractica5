@@ -1,10 +1,10 @@
 <div class="title">
   <h2>Lista de Personas</h2>
   <div class="buttons">
-    <button mat-fab color="primary" aria-label="Añadir persona" (click)="addPersona()">
+    <button mat-fab color="primary" aria-label="Añadir persona" (click)="addObject()">
       <mat-icon>add</mat-icon>
     </button>
-    <button mat-fab color="primary" aria-label="Guardar personas" (click)="savePersonas()">
+    <button mat-fab color="primary" aria-label="Guardar personas" (click)="saveObjectList()">
       <mat-icon>save</mat-icon>
     </button>
   </div>
@@ -26,10 +26,10 @@
     <ng-container matColumnDef="accion">
       <th mat-header-cell *matHeaderCellDef> Acción </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button aria-label="Eliminar persona" (click)="removePersona(element)">
+        <button mat-icon-button aria-label="Eliminar persona" (click)="removeObject(element)">
           <mat-icon>delete</mat-icon>
         </button>
-        <button mat-icon-button aria-label="Editar persona" (click)="editPersona(element)">
+        <button mat-icon-button aria-label="Editar persona" (click)="editObject(element)">
           <mat-icon>edit</mat-icon>
         </button>
       </td>
@@ -39,5 +39,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-    aria-label="Selecciona la página de productos"></mat-paginator>
+    aria-label="Selecciona la página"></mat-paginator>
 </div>
