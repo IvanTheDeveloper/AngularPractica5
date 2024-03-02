@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { DataService } from 'src/app/services/data.service';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UploadFileService } from 'src/app/services/upload-file.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AlumnoFormComponent } from '../alumno-form/alumno-form.component';
+import { AlumnosDataService } from 'src/app/services/alumnos-data.service';
 
 @Component({
   selector: 'app-alumno-list',
@@ -14,7 +14,7 @@ import { AlumnoFormComponent } from '../alumno-form/alumno-form.component';
   styleUrls: ['./alumno-list.component.scss']
 })
 export class AlumnoListComponent {
-  displayedColumns: string[] = ['id', 'nombre', 'accion']
+  displayedColumns: string[] = ['id', 'nombre', 'imagen', 'accion']
   dataSource: MatTableDataSource<any>
   objectList: any[] = []
 
@@ -24,7 +24,7 @@ export class AlumnoListComponent {
   pageSize: number = 4
   pageIndex: number = 0
 
-  constructor(private dataService: DataService, public dialog: MatDialog,
+  constructor(private dataService: AlumnosDataService, public dialog: MatDialog,
     private snackBar: MatSnackBar, private uploadFileService: UploadFileService) {
     this.dataSource = new MatTableDataSource<any>();
   }

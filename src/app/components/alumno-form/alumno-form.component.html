@@ -30,6 +30,7 @@
             </button>
             <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
         </mat-form-field>
+        <img *ngIf="checkoutForm.get('imagen')?.value" [src]="getImageUrl()" alt="img preview" width="100">
 
         <div mat-dialog-actions>
             <button mat-button (click)="cancelClick()">Cancelar</button>

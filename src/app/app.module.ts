@@ -10,13 +10,20 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { AuthService } from './services/auth.service';
-import { DataService } from './services/data.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { CardComponent } from './components/card/card.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AlumnoFormComponent } from './components/alumno-form/alumno-form.component';
+import { AlumnoListComponent } from './components/alumno-list/alumno-list.component';
+import { ProfesorListComponent } from './components/profesor-list/profesor-list.component';
+import { ProfesorFormComponent } from './components/profesor-form/profesor-form.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -33,14 +40,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
-import { CardComponent } from './components/card/card.component';
-import { CardListComponent } from './components/card-list/card-list.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { AlumnoFormComponent } from './components/alumno-form/alumno-form.component';
-import { AlumnoListComponent } from './components/alumno-list/alumno-list.component';
-import { ProfesorListComponent } from './components/profesor-list/profesor-list.component';
-import { ProfesorFormComponent } from './components/profesor-form/profesor-form.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 export const pwdRegex = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[@#$%&¿?¡!*^-_])/;
 
@@ -96,8 +97,10 @@ export const firebaseConfig = {
     HttpClientModule,
     MatTooltipModule,
     MatProgressBarModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ],
-  providers: [AuthService, DataService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

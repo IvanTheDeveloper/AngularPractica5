@@ -53,4 +53,9 @@ export class AlumnoFormComponent {
     this.checkoutForm.patchValue({ imagen: file })
   }
 
+  getImageUrl(): string {
+    const file = this.checkoutForm.get('imagen')?.value
+    return URL.createObjectURL(file);
+  }
+
 }

@@ -7,10 +7,10 @@ import { firebaseConfig } from '../app.module';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class AlumnosDataService {
   private readonly COOKIE_KEY = 'my_auth_token'
   private firebaseUrl = firebaseConfig.databaseURL
-  private firebaseFolder = 'personas'
+  private firebaseFolder = 'personas/alumnos'
   private objectList: any[] = []
 
   constructor(private cookieService: CookieService, private http: HttpClient) { }
