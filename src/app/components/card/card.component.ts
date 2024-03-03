@@ -8,7 +8,6 @@ import { Component, Input } from '@angular/core';
 export class CardComponent {
   @Input() dataSource: any
   placeholderImg = 'assets/images/placeholder_img.svg'
-
   likeColor: string = 'basic'
 
   like() {

@@ -5,9 +5,9 @@ import { authenticatedUsersGuard } from './guards/authenticated-users.guard';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { OrlasComponent } from './components/orlas/orlas.component';
 import { ProfesorListComponent } from './components/profesor-list/profesor-list.component';
 import { AlumnoListComponent } from './components/alumno-list/alumno-list.component';
+import { CardListComponent } from './components/card-list/card-list.component';
 
 const landingPage = '/login' //when not authenticated
 const mainPage = '/orlas' //when authenticated
@@ -16,7 +16,7 @@ const notFoundPage = undefined
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [unauthenticatedUsersGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [unauthenticatedUsersGuard] },
-  { path: 'orlas', component: OrlasComponent, },
+  { path: 'orlas', component: CardListComponent, },
   { path: 'profesores', component: ProfesorListComponent, canActivate: [authenticatedUsersGuard] },
   { path: 'alumnos', component: AlumnoListComponent, canActivate: [authenticatedUsersGuard] },
   { path: '', redirectTo: landingPage, pathMatch: 'full' }, //landing page

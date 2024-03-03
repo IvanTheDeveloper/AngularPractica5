@@ -1,5 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AlumnosDataService } from 'src/app/services/alumnos-data.service';
+import { ProfesoresDataService } from 'src/app/services/profesores-data.service';
+import { OrlasDataService } from 'src/app/services/orlas-data.service';
+import { Observable, catchError, map, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-card-list',
@@ -7,46 +11,72 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   styleUrls: ['./card-list.component.scss']
 })
 export class CardListComponent {
-  list: any[]
+  objectList: any[] = []
 
-  constructor() {
-    this.list = [new item('HELLO', true), new item('HELLO', true), new item('HELLO', true), new item('BYE', false)]
-  }
+  constructor(private alumnos: AlumnosDataService, private profesores: ProfesoresDataService) { }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
-  paginatedFugitives!: any[]
-  pageSize: number = 4
+  paginatedList!: any[]
+  pageSizeOptions: number[] = [1, 4, 8, 20]
+  pageSize: number = 20
   pageIndex: number = 0
 
   //filtro
   page: any = 1
-  sex!: string
-  ageMin!: any
-  ageMax!: any
-  hair!: string
-  eyes!: string
 
   ngOnInit(): void {
-    this.getListData()
+    this.getObjectList()
   }
 
-  getListData() {
-    this.page = this.page ?? ''
-    this.sex = this.sex ?? ''
-    this.ageMin = this.ageMin ?? ''
-    this.ageMax = this.ageMax ?? ''
-    this.hair = this.hair ?? ''
-    this.eyes = this.eyes ?? ''
+  getObjectList(): void {
+    const list: any[] = [];
+    this.getProfesores().subscribe(
+      (profList) => {
+        list.push(...profList);
+        this.getAlumnos().subscribe(
+          (aluList) => {
+            list.push(...aluList);
+            this.objectList = list;
+            this.paginateList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
-    /*this.dataSource.getFugitivesByFilter(this.page, this.sex, this.ageMin, this.ageMax, this.hair, this.eyes).subscribe(data => {
-      this.fugitiveList = data.items
-      this.paginateFugitives()
-    })*/
+  getAlumnos(): Observable<any[]> {
+    return this.alumnos.getObjectList().pipe(
+      map((response) => {
+        return Object.values(response);
+      }),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      })
+    );
+  }
+
+  getProfesores(): Observable<any[]> {
+    return this.profesores.getObjectList().pipe(
+      map((response) => {
+        return Object.values(response);
+      }),
+      catchError((error) => {
+        console.log(error);
+        return throwError(error);
+      })
+    );
   }
 
   paginateList(): void {
     const startIndex = this.pageIndex * this.pageSize
-    this.paginatedFugitives = this.list.slice(startIndex, startIndex + this.pageSize)
+    this.paginatedList = this.objectList.slice(startIndex, startIndex + this.pageSize)
   }
 
   handlePage(event: PageEvent): void {
@@ -56,24 +86,15 @@ export class CardListComponent {
   }
 
   applyFilter() {
-    this.getListData() //refrescar los datos
+    this.getObjectList() //refrescar los datos
     this.pageIndex = 0
     this.paginator.pageIndex = 0
   }
 
   resetFields() {
     this.page = 1
-    this.sex = ''
-    this.ageMin = ''
-    this.ageMax = ''
-    this.eyes = ''
-    this.hair = ''
     /* por esto uso 'any' en vez de 'number' para el tipo de variable,
     la api puede pillar los campos vacíos y devolver una respuesta como si no se hubiesen usado parámetros sin dar error */
   }
 
-}
-
-class item {
-  constructor(public name: string, public show: boolean) { }
 }
